@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   BACKGROUND,
   COMMENT,
@@ -10,9 +10,12 @@ import {
   GREEN,
   YELLOW,
 } from "../assets/colors";
-import { Outlet } from "react-router";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router";
+import BestBook from "./BestBook";
+import Books from "./Books";
 
 const Home = () => {
+  const [Search, setSearch] = useState("");
   return (
     <>
       <nav
@@ -94,6 +97,14 @@ const Home = () => {
           <input
             type="text"
             placeholder="جستجو..."
+            onChange={(event) => {
+              const filter = event.target.value;
+              if (filter) {
+                setSearch(filter.toLowerCase());
+              } else {
+                setSearch("");
+              }
+            }}
             style={{
               padding: "6px 30px 6px 10px",
               borderRadius: "20px",
@@ -130,7 +141,10 @@ const Home = () => {
           padding: "20px",
         }}
       >
-        <Outlet></Outlet>
+        <Routes>
+          <Route index element={<BestBook></BestBook>}></Route>
+          <Route path="books" element={<Books filter={Search}></Books>}></Route>
+        </Routes>
       </div>
     </>
   );

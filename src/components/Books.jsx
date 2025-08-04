@@ -11,7 +11,15 @@ import {
   PURPLE,
 } from "../assets/colors";
 
-const Books = () => {
+const Books = ({ filter }) => {
+  let filteredBooks = books;
+
+  if (filter) {
+    filteredBooks = filteredBooks.filter((book) =>
+      book.name.toLowerCase().includes(filter.toLowerCase())
+    );
+  }
+
   return (
     <div
       style={{
@@ -22,7 +30,7 @@ const Books = () => {
         padding: "20px",
       }}
     >
-      {books.map((book) => (
+      {filteredBooks.map((book) => (
         <div
           key={book.id}
           style={{
