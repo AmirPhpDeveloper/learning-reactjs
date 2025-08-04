@@ -1,7 +1,19 @@
 import React from "react";
-import { BACKGROUND, COMMENT, PURPLE } from "../assets/colors";
+import {
+  BACKGROUND,
+  COMMENT,
+  PURPLE,
+  FOREGROUND,
+  CYAN,
+  RED,
+  ORANGE,
+  GREEN,
+  YELLOW,
+  PINK,
+} from "../assets/colors";
+import { Outlet } from "react-router";
 
-const Navbar = () => {
+const Books = () => {
   return (
     <>
       <nav
@@ -12,13 +24,15 @@ const Navbar = () => {
           right: 0,
           height: "60px",
           display: "flex",
-          justifyContent: "center",
+          justifyContent: "space-between",
           alignItems: "center",
           backgroundColor: BACKGROUND,
-          padding: "10px 0",
+          padding: "0 20px",
           fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-          boxShadow: "0 2px 6px rgba(0,0,0,0.3)", // سایه نوبار
+          boxShadow: `0 2px 6px ${PURPLE}88`,
           zIndex: 1000,
+          direction: "rtl",
+          color: FOREGROUND,
         }}
       >
         <ul
@@ -28,13 +42,14 @@ const Navbar = () => {
             gap: "30px",
             margin: 0,
             padding: 0,
+            alignItems: "center",
           }}
         >
           <li>
             <a
               href="/"
               style={{
-                color: "#ecf0f1",
+                color: PURPLE,
                 textDecoration: "none",
                 fontSize: "18px",
                 display: "flex",
@@ -49,7 +64,7 @@ const Navbar = () => {
             <a
               href="/books"
               style={{
-                color: "#ecf0f1",
+                color: CYAN,
                 textDecoration: "none",
                 fontSize: "18px",
                 display: "flex",
@@ -61,19 +76,65 @@ const Navbar = () => {
             </a>
           </li>
         </ul>
+
+        {/* متن وسط */}
+        <div
+          style={{
+            fontWeight: "bold",
+            fontSize: "20px",
+            whiteSpace: "nowrap",
+            color: ORANGE,
+            textShadow: `1px 1px 2px ${RED}`,
+          }}
+        >
+          React Practice Project
+        </div>
+
+        {/* بخش سرچ */}
+        <div style={{ position: "relative" }}>
+          <input
+            type="text"
+            placeholder="جستجو..."
+            style={{
+              padding: "6px 30px 6px 10px",
+              borderRadius: "20px",
+              border: `1px solid ${COMMENT}`,
+              outline: "none",
+              fontSize: "16px",
+              width: "180px",
+              backgroundColor: BACKGROUND,
+              color: YELLOW,
+              fontWeight: "600",
+            }}
+          />
+          <i
+            className="fas fa-search"
+            style={{
+              position: "absolute",
+              right: "10px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              color: GREEN,
+            }}
+          ></i>
+        </div>
       </nav>
 
       <div
         style={{
-          marginTop: "60px", // برای اینکه محتوا زیر نوبار قرار بگیره
-          minHeight: "calc(100vh - 60px)", // کل ارتفاع صفحه منهای نوبار
-          backgroundColor: COMMENT, // بک‌گراند کل فضای زیر نوبار
+          marginTop: "60px",
+          minHeight: "calc(100vh - 60px)",
+          backgroundColor: COMMENT,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "20px",
         }}
       >
-        {/* اینجا محتوای صفحه قرار میگیره، مثلا Outlet */}
+        <Outlet></Outlet>
       </div>
     </>
   );
 };
 
-export default Navbar;
+export default Books;
