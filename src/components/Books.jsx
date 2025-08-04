@@ -1,139 +1,128 @@
 import React from "react";
+import books from "./../data/data";
 import {
   BACKGROUND,
-  COMMENT,
-  PURPLE,
+  PINK,
   FOREGROUND,
   CYAN,
-  RED,
   ORANGE,
-  GREEN,
   YELLOW,
-  PINK,
+  RED,
+  PURPLE,
 } from "../assets/colors";
-import { Outlet } from "react-router";
 
 const Books = () => {
   return (
-    <>
-      <nav
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          height: "60px",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          backgroundColor: BACKGROUND,
-          padding: "0 20px",
-          fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-          boxShadow: `0 2px 6px ${PURPLE}88`,
-          zIndex: 1000,
-          direction: "rtl",
-          color: FOREGROUND,
-        }}
-      >
-        <ul
-          style={{
-            listStyle: "none",
-            display: "flex",
-            gap: "30px",
-            margin: 0,
-            padding: 0,
-            alignItems: "center",
-          }}
-        >
-          <li>
-            <a
-              href="/"
-              style={{
-                color: PURPLE,
-                textDecoration: "none",
-                fontSize: "18px",
-                display: "flex",
-                alignItems: "center",
-                gap: "6px",
-              }}
-            >
-              <i className="fas fa-home"></i> خانه
-            </a>
-          </li>
-          <li>
-            <a
-              href="/books"
-              style={{
-                color: CYAN,
-                textDecoration: "none",
-                fontSize: "18px",
-                display: "flex",
-                alignItems: "center",
-                gap: "6px",
-              }}
-            >
-              <i className="fas fa-book"></i> کتاب‌ها
-            </a>
-          </li>
-        </ul>
-
-        {/* متن وسط */}
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: "20px", // فاصله بین کارت‌ها
+        padding: "20px",
+      }}
+    >
+      {books.map((book) => (
         <div
+          key={book.id}
           style={{
-            fontWeight: "bold",
-            fontSize: "20px",
-            whiteSpace: "nowrap",
-            color: ORANGE,
-            textShadow: `1px 1px 2px ${RED}`,
+            backgroundColor: BACKGROUND,
+            boxShadow: `0 6px 15px ${PINK}88`,
+            borderRadius: "12px",
+            maxWidth: 900,
+            width: "100%",
+            display: "flex",
+            overflow: "hidden",
+            color: FOREGROUND,
+            fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+            gap: "20px",
+            flexWrap: "wrap", // اجازه می‌ده تو صفحه‌های کوچک زیر هم برن
           }}
         >
-          React Practice Project
-        </div>
-
-        {/* بخش سرچ */}
-        <div style={{ position: "relative" }}>
-          <input
-            type="text"
-            placeholder="جستجو..."
+          {/* بخش متن سمت چپ */}
+          <div
             style={{
-              padding: "6px 30px 6px 10px",
-              borderRadius: "20px",
-              border: `1px solid ${COMMENT}`,
-              outline: "none",
-              fontSize: "16px",
-              width: "180px",
-              backgroundColor: BACKGROUND,
-              color: YELLOW,
-              fontWeight: "600",
+              flex: "1 1 400px", // حداقل عرض 400px، قابل تغییر اندازه
+              padding: "30px 40px",
+              borderRight: `5px solid ${PURPLE}`,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              minWidth: 300,
+              boxSizing: "border-box",
             }}
-          />
-          <i
-            className="fas fa-search"
-            style={{
-              position: "absolute",
-              right: "10px",
-              top: "50%",
-              transform: "translateY(-50%)",
-              color: GREEN,
-            }}
-          ></i>
-        </div>
-      </nav>
+          >
+            <h3
+              style={{
+                marginBottom: 15,
+                color: ORANGE,
+                fontWeight: "700",
+                fontSize: "28px",
+              }}
+            >
+              {book.name}
+            </h3>
+            <p
+              style={{
+                marginBottom: 25,
+                lineHeight: 1.6,
+                color: YELLOW,
+                fontSize: 16,
+              }}
+            >
+              {book.description}
+            </p>
+            <div
+              style={{
+                fontSize: "20px",
+                fontWeight: "700",
+                color: RED,
+                backgroundColor: PURPLE + "22",
+                padding: "8px 15px",
+                borderRadius: "8px",
+                width: "fit-content",
+                boxShadow: `0 0 10px ${RED}88`,
+                alignSelf: "flex-start",
+              }}
+            >
+              قیمت: {book.price}
+            </div>
+          </div>
 
-      <div
-        style={{
-          marginTop: "60px",
-          minHeight: "calc(100vh - 60px)",
-          backgroundColor: COMMENT,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "20px",
-        }}
-      >
-        <Outlet></Outlet>
-      </div>
-    </>
+          {/* بخش عکس سمت راست */}
+          <div
+            style={{
+              flex: "1 1 300px", // حداقل عرض 300px، قابل تغییر اندازه
+              overflow: "hidden",
+              minWidth: 200,
+              maxHeight: 300,
+              boxSizing: "border-box",
+            }}
+          >
+            <img
+              src={book.imageUrl}
+              alt={book.name}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                display: "block",
+                filter: "drop-shadow(0 0 5px " + CYAN + ")",
+                transition: "transform 0.3s ease",
+                cursor: "pointer",
+                borderRadius: "0 12px 12px 0",
+              }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.transform = "scale(1.05)")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.transform = "scale(1)")
+              }
+            />
+          </div>
+        </div>
+      ))}
+    </div>
   );
 };
 

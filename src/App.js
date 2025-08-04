@@ -1,14 +1,16 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Books from "./components/Books";
+import Home from "./components/Home";
 import BestBook from "./components/BestBook";
+import Books from "./components/Books";
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Books></Books>}>
+          <Route path="/" element={<Home></Home>}>
             <Route index element={<BestBook></BestBook>}></Route>
+            <Route path="/books" element={<Books></Books>}></Route>
           </Route>
         </Routes>
       </BrowserRouter>
