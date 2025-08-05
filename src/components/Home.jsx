@@ -10,13 +10,19 @@ import {
   GREEN,
   YELLOW,
 } from "../assets/colors";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router";
+import { Routes, Route, useLocation } from "react-router-dom"; // توجه به react-router-dom
 import BestBook from "./BestBook";
 import Books from "./Books";
 import About from "./About";
 
 const Home = () => {
+  const location = useLocation();
   const [Search, setSearch] = useState("");
+
+  // شرط رندر بخش سرچ فقط در صفحه های به جز / و /about
+  const showSearch =
+    location.pathname !== "/" && location.pathname !== "/about";
+
   return (
     <>
       <nav
@@ -52,7 +58,7 @@ const Home = () => {
             <a
               href="/"
               style={{
-                color: PURPLE,
+                color: location.pathname === "/" ? PURPLE : "inherit",
                 textDecoration: "none",
                 fontSize: "18px",
                 display: "flex",
@@ -67,7 +73,7 @@ const Home = () => {
             <a
               href="/books"
               style={{
-                color: CYAN,
+                color: location.pathname === "/books" ? CYAN : "inherit",
                 textDecoration: "none",
                 fontSize: "18px",
                 display: "flex",
@@ -82,7 +88,7 @@ const Home = () => {
             <a
               href="/about"
               style={{
-                color: CYAN,
+                color: location.pathname === "/about" ? CYAN : "inherit",
                 textDecoration: "none",
                 fontSize: "18px",
                 display: "flex",
@@ -108,42 +114,44 @@ const Home = () => {
           React Practice Project
         </div>
 
-        {/* بخش سرچ */}
-        <div style={{ position: "relative" }}>
-          <input
-            type="text"
-            placeholder="جستجو..."
-            onChange={(event) => {
-              const filter = event.target.value;
-              if (filter) {
-                setSearch(filter.toLowerCase());
-              } else {
-                setSearch("");
-              }
-            }}
-            style={{
-              padding: "6px 30px 6px 10px",
-              borderRadius: "20px",
-              border: `1px solid ${COMMENT}`,
-              outline: "none",
-              fontSize: "16px",
-              width: "180px",
-              backgroundColor: BACKGROUND,
-              color: YELLOW,
-              fontWeight: "600",
-            }}
-          />
-          <i
-            className="fas fa-search"
-            style={{
-              position: "absolute",
-              right: "10px",
-              top: "50%",
-              transform: "translateY(-50%)",
-              color: GREEN,
-            }}
-          ></i>
-        </div>
+        {/* فقط اگر مسیر صفحه نه خانه و نه درباره بود سرچ رو نشون بده */}
+        {showSearch && (
+          <div style={{ position: "relative" }}>
+            <input
+              type="text"
+              placeholder="جستجو..."
+              onChange={(event) => {
+                const filter = event.target.value;
+                if (filter) {
+                  setSearch(filter.toLowerCase());
+                } else {
+                  setSearch("");
+                }
+              }}
+              style={{
+                padding: "6px 30px 6px 10px",
+                borderRadius: "20px",
+                border: `1px solid ${COMMENT}`,
+                outline: "none",
+                fontSize: "16px",
+                width: "180px",
+                backgroundColor: BACKGROUND,
+                color: YELLOW,
+                fontWeight: "600",
+              }}
+            />
+            <i
+              className="fas fa-search"
+              style={{
+                position: "absolute",
+                right: "10px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                color: GREEN,
+              }}
+            ></i>
+          </div>
+        )}
       </nav>
 
       <div
