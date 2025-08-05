@@ -13,6 +13,7 @@ import {
 import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 import BestBook from "./BestBook";
 import Books from "./Books";
+import About from "./About";
 
 const Home = () => {
   const [Search, setSearch] = useState("");
@@ -75,6 +76,21 @@ const Home = () => {
               }}
             >
               <i className="fas fa-book"></i> کتاب‌ها
+            </a>
+          </li>
+          <li>
+            <a
+              href="/about"
+              style={{
+                color: CYAN,
+                textDecoration: "none",
+                fontSize: "18px",
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+              }}
+            >
+              <i className="fas fa-info-circle"></i> درباره ما
             </a>
           </li>
         </ul>
@@ -142,8 +158,9 @@ const Home = () => {
         }}
       >
         <Routes>
-          <Route index element={<BestBook></BestBook>}></Route>
-          <Route path="books" element={<Books filter={Search}></Books>}></Route>
+          <Route index element={<BestBook />} />
+          <Route path="books" element={<Books filter={Search} />} />
+          <Route path="about" element={<About />} />
         </Routes>
       </div>
     </>
