@@ -1,3 +1,5 @@
+import React from "react";
+import { Link } from "react-router-dom";
 import { BACKGROUND, FOREGROUND, PINK, CYAN, PURPLE } from "./../assets/colors";
 
 const Home = () => {
@@ -36,32 +38,34 @@ const Home = () => {
         Click the button below to start managing your tasks.
       </p>
 
-      <button
-        style={{
-          backgroundColor: PURPLE,
-          color: FOREGROUND,
-          border: "none",
-          borderRadius: 8,
-          padding: "15px 40px",
-          fontSize: 18,
-          cursor: "pointer",
-          fontWeight: "bold",
-          boxShadow: `0 0 10px ${PURPLE}`,
-          transition: "background-color 0.3s ease",
-          display: "flex",
-          alignItems: "center",
-          gap: 10,
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.backgroundColor = CYAN;
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.backgroundColor = PURPLE;
-        }}
-      >
-        <i className="fa-solid fa-play-circle fa-lg"></i>
-        Get Started
-      </button>
+      <Link to="/todo" style={{ textDecoration: "none" }}>
+        <button
+          style={{
+            backgroundColor: PURPLE,
+            color: FOREGROUND,
+            border: "none",
+            borderRadius: 8,
+            padding: "15px 40px",
+            fontSize: 18,
+            cursor: "pointer",
+            fontWeight: "bold",
+            boxShadow: `0 0 10px ${PURPLE}`,
+            transition: "background-color 0.3s ease",
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = CYAN;
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = PURPLE;
+          }}
+        >
+          <i className="fa-solid fa-play-circle fa-lg"></i>
+          Get Started
+        </button>
+      </Link>
     </div>
   );
 };
