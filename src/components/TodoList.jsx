@@ -7,76 +7,11 @@ import {
   PINK,
   CURRENT_LINE,
   COMMENT,
-  ORANGE,
-  GREEN,
-  YELLOW,
-  RED,
 } from "../assets/colors";
 import Navbar from "./Navbar";
+import Todo from "./Todo";
 
 const TodoList = () => {
-  const navStyle = {
-    width: "100%",
-    height: 60,
-    backgroundColor: BACKGROUND,
-    borderBottom: `1.5px solid ${PURPLE}`,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    position: "sticky",
-    top: 0,
-    zIndex: 1000,
-    boxShadow: `0 3px 8px rgba(189, 147, 249, 0.4)`,
-    boxSizing: "border-box",
-  };
-
-  const navLinksContainer = {
-    position: "absolute",
-    left: 20,
-    display: "flex",
-    gap: 18,
-    top: 0,
-    height: "100%",
-    alignItems: "center",
-  };
-
-  const navLinkStyle = {
-    color: CYAN,
-    textDecoration: "none",
-    fontWeight: "700",
-    fontSize: 17,
-    display: "flex",
-    alignItems: "center",
-    gap: 8,
-    padding: "6px 14px",
-    borderRadius: 8,
-    transition: "all 0.3s ease",
-    boxShadow: `0 0 6px ${CYAN}`,
-    userSelect: "none",
-  };
-
-  const navLinkHover = (e) => {
-    e.currentTarget.style.backgroundColor = PURPLE;
-    e.currentTarget.style.color = PINK;
-    e.currentTarget.style.boxShadow = `0 0 12px ${PINK}`;
-  };
-
-  const navLinkLeave = (e) => {
-    e.currentTarget.style.backgroundColor = "transparent";
-    e.currentTarget.style.color = CYAN;
-    e.currentTarget.style.boxShadow = `0 0 6px ${CYAN}`;
-  };
-
-  const titleStyle = {
-    color: PINK,
-    fontWeight: "900",
-    fontSize: 24,
-    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-    margin: 0,
-    userSelect: "none",
-    textShadow: `0 0 8px ${PURPLE}`,
-  };
-
   return (
     <div
       style={{
@@ -88,15 +23,16 @@ const TodoList = () => {
         boxSizing: "border-box",
       }}
     >
-      <Navbar></Navbar>
+      <Navbar />
 
-      {/* Main content placeholder */}
       <main
         style={{
-          padding: 30,
+          paddingTop: 100, // فاصله 100 پیکسل از بالا (زیر نوبار)
+          paddingLeft: 30,
+          paddingRight: 30,
           display: "flex",
           justifyContent: "center",
-          alignItems: "center",
+          alignItems: "flex-start",
           height: "calc(100vh - 60px)",
           overflow: "auto",
           boxSizing: "border-box",
@@ -106,7 +42,7 @@ const TodoList = () => {
           textShadow: `0 0 3px ${CURRENT_LINE}`,
         }}
       >
-        <p>Your to-do list will appear here.</p>
+        <Todo />
       </main>
     </div>
   );

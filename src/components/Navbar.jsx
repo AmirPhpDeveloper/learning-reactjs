@@ -88,7 +88,7 @@ const Navbar = () => {
         </Link>
 
         <Link
-          to="/todos"
+          to="/todo"
           style={navLinkStyle}
           onMouseEnter={navLinkHover}
           onMouseLeave={navLinkLeave}
