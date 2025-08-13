@@ -8,6 +8,7 @@ import {
   YELLOW,
   RED,
   PURPLE,
+  GREEN,
 } from "../assets/colors";
 
 const fakeTodos = [
@@ -143,7 +144,6 @@ const fakeTodos = [
     imageUrl: "https://picsum.photos/id/25/200/300",
   },
 ];
-
 const priorityColors = {
   High: RED,
   Medium: ORANGE,
@@ -153,7 +153,13 @@ const priorityColors = {
 const priorityOrder = { High: 1, Medium: 2, Low: 3 };
 
 const Todo = () => {
-  const sortedTodos = [...fakeTodos].sort(
+  const [todos, setTodos] = React.useState(fakeTodos);
+
+  const handleDone = (id) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
+  };
+
+  const sortedTodos = [...todos].sort(
     (a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]
   );
 
@@ -190,6 +196,7 @@ const Todo = () => {
               minWidth: 300,
               boxSizing: "border-box",
               flexBasis: "calc(50% - 20px)",
+              position: "relative",
             }}
           >
             <div
@@ -248,6 +255,29 @@ const Todo = () => {
               >
                 Due: {todo.dueDate}
               </div>
+              <button
+                onClick={() => handleDone(todo.id)}
+                style={{
+                  backgroundColor: GREEN,
+                  color: BACKGROUND,
+                  border: "none",
+                  padding: "10px 20px",
+                  borderRadius: "8px",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                  fontSize: "16px",
+                  marginTop: "15px",
+                  alignSelf: "flex-start",
+                  transition: "all 0.3s ease",
+                  boxShadow: `0 0 10px ${GREEN}88`,
+                  ":hover": {
+                    transform: "scale(1.05)",
+                    boxShadow: `0 0 15px ${GREEN}`,
+                  },
+                }}
+              >
+                Done
+              </button>
             </div>
 
             <div
