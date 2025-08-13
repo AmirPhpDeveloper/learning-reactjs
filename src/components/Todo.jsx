@@ -144,6 +144,7 @@ const fakeTodos = [
     imageUrl: "https://picsum.photos/id/25/200/300",
   },
 ];
+
 const priorityColors = {
   High: RED,
   Medium: ORANGE,
@@ -157,6 +158,31 @@ const Todo = () => {
 
   const handleDone = (id) => {
     setTodos(todos.filter((todo) => todo.id !== id));
+  };
+
+  const changePriority = (id) => {
+    setTodos(
+      todos.map((todo) => {
+        if (todo.id === id) {
+          let newPriority;
+          switch (todo.priority) {
+            case "High":
+              newPriority = "Medium";
+              break;
+            case "Medium":
+              newPriority = "Low";
+              break;
+            case "Low":
+              newPriority = "High";
+              break;
+            default:
+              newPriority = "High";
+          }
+          return { ...todo, priority: newPriority };
+        }
+        return todo;
+      })
+    );
   };
 
   const sortedTodos = [...todos].sort(
@@ -231,6 +257,7 @@ const Todo = () => {
                 {todo.description}
               </p>
               <div
+                onClick={() => changePriority(todo.id)}
                 style={{
                   fontSize: "20px",
                   fontWeight: "700",
@@ -242,6 +269,12 @@ const Todo = () => {
                   boxShadow: `0 0 10px ${priorityColors[todo.priority]}88`,
                   alignSelf: "flex-start",
                   marginBottom: 10,
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                  ":hover": {
+                    transform: "scale(1.05)",
+                    boxShadow: `0 0 15px ${priorityColors[todo.priority]}`,
+                  },
                 }}
               >
                 Priority: {todo.priority}
