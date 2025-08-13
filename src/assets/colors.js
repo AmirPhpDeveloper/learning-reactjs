@@ -10,3 +10,4 @@ export const PINK = "#FF79C6";
 export const PURPLE = "#BD93F9";
 export const RED = "#FF5555";
 export const YELLOW = "#F1FA8C";
+export const LIGHT_GRAY = "#D3D3D3";

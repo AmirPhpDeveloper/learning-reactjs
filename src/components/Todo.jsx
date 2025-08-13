@@ -154,30 +154,31 @@ const priorityColors = {
 const priorityOrder = { High: 1, Medium: 2, Low: 3 };
 
 const Todo = () => {
-  const [todos, setTodos] = React.useState(fakeTodos);
+  const [todos, setTodos] = React.useState(
+    fakeTodos.map((todo) => ({ ...todo, completed: false }))
+  );
+  const [showCompleted, setShowCompleted] = React.useState(false);
 
   const handleDone = (id) => {
     setTodos(todos.filter((todo) => todo.id !== id));
+  };
+
+  const toggleCompleted = (id) => {
+    setTodos(
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      )
+    );
   };
 
   const changePriority = (id) => {
     setTodos(
       todos.map((todo) => {
         if (todo.id === id) {
-          let newPriority;
-          switch (todo.priority) {
-            case "High":
-              newPriority = "Medium";
-              break;
-            case "Medium":
-              newPriority = "Low";
-              break;
-            case "Low":
-              newPriority = "High";
-              break;
-            default:
-              newPriority = "High";
-          }
+          const priorities = ["High", "Medium", "Low"];
+          const currentIndex = priorities.indexOf(todo.priority);
+          const newPriority =
+            priorities[(currentIndex + 1) % priorities.length];
           return { ...todo, priority: newPriority };
         }
         return todo;
@@ -185,9 +186,16 @@ const Todo = () => {
     );
   };
 
-  const sortedTodos = [...todos].sort(
+  const filteredTodos = showCompleted
+    ? todos
+    : todos.filter((todo) => !todo.completed);
+
+  const sortedTodos = [...filteredTodos].sort(
     (a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]
   );
+
+  // Create a lighter version of PURPLE for backgrounds
+  const lightPurple = PURPLE + "22";
 
   return (
     <div
@@ -201,6 +209,30 @@ const Todo = () => {
       <div
         style={{
           display: "flex",
+          justifyContent: "center",
+          marginBottom: "20px",
+          gap: "10px",
+        }}
+      >
+        <button
+          onClick={() => setShowCompleted(!showCompleted)}
+          style={{
+            backgroundColor: showCompleted ? PURPLE : BACKGROUND,
+            color: FOREGROUND,
+            padding: "10px 20px",
+            borderRadius: "8px",
+            border: `2px solid ${PURPLE}`,
+            cursor: "pointer",
+            fontWeight: "bold",
+          }}
+        >
+          {showCompleted ? "Show All" : "Show Uncompleted Only"}
+        </button>
+      </div>
+
+      <div
+        style={{
+          display: "flex",
           flexWrap: "wrap",
           justifyContent: "center",
           gap: "20px",
@@ -211,7 +243,9 @@ const Todo = () => {
             key={todo.id}
             style={{
               backgroundColor: BACKGROUND,
-              boxShadow: `0 6px 15px ${PINK}88`,
+              boxShadow: `0 6px 15px ${
+                todo.completed ? GREEN + "88" : PINK + "88"
+              }`,
               borderRadius: "12px",
               width: "calc(50% - 20px)",
               display: "flex",
@@ -221,48 +255,71 @@ const Todo = () => {
               gap: "20px",
               minWidth: 300,
               boxSizing: "border-box",
-              flexBasis: "calc(50% - 20px)",
               position: "relative",
+              opacity: todo.completed ? 0.8 : 1,
+              border: todo.completed ? `2px solid ${GREEN}` : "none",
             }}
           >
             <div
               style={{
                 flex: 3,
                 padding: "30px 40px",
-                borderRight: `5px solid ${PURPLE}`,
+                borderRight: `5px solid ${todo.completed ? GREEN : PURPLE}`,
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
               }}
             >
-              <h3
+              <div
                 style={{
-                  marginBottom: 15,
-                  color: ORANGE,
-                  fontWeight: "700",
-                  fontSize: "28px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  marginBottom: "15px",
                 }}
               >
-                {todo.title}
-              </h3>
+                <input
+                  type="checkbox"
+                  checked={todo.completed}
+                  onChange={() => toggleCompleted(todo.id)}
+                  style={{
+                    width: "20px",
+                    height: "20px",
+                    cursor: "pointer",
+                  }}
+                />
+                <h3
+                  style={{
+                    color: todo.completed ? GREEN : ORANGE,
+                    fontWeight: "700",
+                    fontSize: "28px",
+                    textDecoration: todo.completed ? "line-through" : "none",
+                    margin: 0,
+                  }}
+                >
+                  {todo.title}
+                </h3>
+              </div>
+
               <p
                 style={{
                   marginBottom: 25,
                   lineHeight: 1.6,
-                  color: YELLOW,
+                  color: todo.completed ? FOREGROUND + "aa" : YELLOW,
                   fontSize: 16,
                   whiteSpace: "normal",
                 }}
               >
                 {todo.description}
               </p>
+
               <div
                 onClick={() => changePriority(todo.id)}
                 style={{
                   fontSize: "20px",
                   fontWeight: "700",
                   color: priorityColors[todo.priority],
-                  backgroundColor: PURPLE + "22",
+                  backgroundColor: lightPurple,
                   padding: "8px 15px",
                   borderRadius: "8px",
                   width: "fit-content",
@@ -271,23 +328,21 @@ const Todo = () => {
                   marginBottom: 10,
                   cursor: "pointer",
                   transition: "all 0.3s ease",
-                  ":hover": {
-                    transform: "scale(1.05)",
-                    boxShadow: `0 0 15px ${priorityColors[todo.priority]}`,
-                  },
                 }}
               >
                 Priority: {todo.priority}
               </div>
+
               <div
                 style={{
                   fontSize: "16px",
                   fontWeight: "600",
-                  color: ORANGE,
+                  color: todo.completed ? FOREGROUND + "aa" : ORANGE,
                 }}
               >
                 Due: {todo.dueDate}
               </div>
+
               <button
                 onClick={() => handleDone(todo.id)}
                 style={{
@@ -309,7 +364,7 @@ const Todo = () => {
                   },
                 }}
               >
-                Done
+                Delete
               </button>
             </div>
 
@@ -319,8 +374,27 @@ const Todo = () => {
                 overflow: "hidden",
                 maxHeight: 300,
                 boxSizing: "border-box",
+                position: "relative",
               }}
             >
+              {todo.completed && (
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "10px",
+                    right: "10px",
+                    backgroundColor: GREEN,
+                    color: BACKGROUND,
+                    padding: "5px 10px",
+                    borderRadius: "5px",
+                    fontWeight: "bold",
+                    zIndex: 2,
+                    fontSize: "14px",
+                  }}
+                >
+                  Completed
+                </div>
+              )}
               <img
                 src={todo.imageUrl}
                 alt={todo.title}
@@ -329,7 +403,9 @@ const Todo = () => {
                   height: "100%",
                   objectFit: "cover",
                   display: "block",
-                  filter: `drop-shadow(0 0 5px ${CYAN})`,
+                  filter: todo.completed
+                    ? "grayscale(50%)"
+                    : `drop-shadow(0 0 5px ${CYAN})`,
                   transition: "transform 0.3s ease",
                   cursor: "pointer",
                   borderRadius: "0 12px 12px 0",
